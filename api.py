@@ -24,9 +24,7 @@ def getallusers():
 
 @app.route('/test')
 def test():
-        with open(usersJsonFile, 'r+') as jsonFile:
-            users = json.load(jsonFile)
-            return str(len(users))
+    return render_template('test.html')
 
 @app.route('/adduser', methods=['GET', 'POST'])
 def adduser():
