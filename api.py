@@ -75,10 +75,12 @@ def updateuser(id):
 
         user = form.user.data
         port = form.port.data
+        password = form.password.data
         with open(usersJsonFile, 'r+') as jsonFile:
             users = json.load(jsonFile)
             updateUser = users[id-1]
             updateUser['user'] = user
+            updateUser['passwd'] = password
             jsonFile.seek(0)  # rewind
             json.dump(users, jsonFile)
             jsonFile.truncate()
