@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect
 from flask import jsonify
 from wtforms import Form,StringField, IntegerField,HiddenField
 from datetime import datetime, timedelta
+from requests import get
 import json
 
 app = Flask(__name__)
@@ -31,14 +32,14 @@ def test():
 def adduser():
     form = UserForm(request.form)
     if(request.method == 'POST'):
-        user = form.user.data
-        password = 'Pass@word1'
-        expire = (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d")
-        # print(user.data)
-
         with open(usersJsonFile, 'r+') as jsonFile:
             users = json.load(jsonFile)
-            id = len(users) + 1
+            numberOfUsers = len(users)
+            id = numberOfUsers + 1
+            user = form.user.data
+            port = users[numberOfUsers-1]['port'] + 1
+            password = 'Pass@word' + str(port)
+            expire = (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d")
             users.append(
                 {
                     "d": 0,
@@ -47,9 +48,9 @@ def adduser():
                     "method": "aes-128-ctr",
                     "obfs": "tls1.2_ticket_auth_compatible",
                     "passwd": password,
-                    "port": 6667,
+                    "port": port,
                     "protocol": "auth_aes128_md5",
-                    "protocol_param": "",
+                    "protocol_param": "3",
                     "speed_limit_per_con": 0,
                     "speed_limit_per_user": 0,
                     "transfer_enable": 900727656415232,
@@ -88,15 +89,32 @@ def updateuser(id):
             user = users[id-1]
             form.id.data = user['id']
             form.user.data = user['user']
+            form.password.data = user['passwd']
             form.port.data = user['port']
+            form.deviceLimited.data = user['protocol_param']
+            form.expire.data = user['expire']
             # print(user)
             return render_template('updateuser.html', form=form)
 
-class UserForm(Form):
-    id = IntegerField('Id')
-    user = StringField('User')
-    port = IntegerField('Port')
 
+@app.route('/connectioninfo/<int:id>')
+def getconnectioninfo(id):
+    ip = get('https://api.ipify.org').text
+    with open(usersJsonFile, 'r+') as jsonFile:
+        users = json.load(jsonFile)
+        user = users[id-1]
+        user['ip'] = ip
+        return render_template('connectioninfo.html' , user=user)
+
+class UserForm(Form):
+    #read only
+    id = IntegerField('Id', render_kw={'readonly': True})
+    port = IntegerField('Port' , render_kw={'readonly': True})
+    deviceLimited = StringField('DeviceLimited', render_kw={'readonly': True})
+    # editable
+    user = StringField('User')
+    password = StringField('Password')
+    expire = StringField('Expire')
 
 if __name__ == '__main__':
     app.run(debug=True)

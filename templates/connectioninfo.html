@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <div class="card-deck mb-3 text-center">
+            <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">连接信息</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>服务器地址：{{user.ip}}</p>
+                        <p>端口：{{user.port}}</p>
+                        <p>密码：{{user.passwd}}</p>
+                        <p>加密：{{user.method}}</p>
+                        <p>协议：{{user.protocol}}</p>
+                    </div>
+            </div>
+    </div>
+
+{% endblock %}

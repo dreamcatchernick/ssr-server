@@ -17,12 +17,15 @@
         <tbody>
             {% for user in users %}
                 <tr>
-                    <td><a href="updateuser/{{user.id}}">{{user.id}}</a></td>
+                    <td><a href="connectioninfo/{{user.id}}">{{user.id}}</a></td>
                     <td>{{user.user}}</td>
                     <td>{{user.port}}</td>
                     <td>{{user.expire}}</td>
                     <td>{{user.enable}}</td>
-                    <td><button class="btn btn-primary" type="button">Disable</button></td>
+                    <td>
+                        <button class="btn btn-primary" type="button">Disable</button>
+                        <a class="btn btn-primary" href="updateuser/{{user.id}}">Update</a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
