@@ -2,9 +2,31 @@
 
 {% block body %}
     <h1>Users</h1>
-    <ul class="list-group">
-    {% for user in users %}
-        <li class="list-group-item">{{user.user}}</li>
-    {% endfor %}
-    </ul>
+    <a class="btn btn-success" href="/adduser"> Add User</a>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>User</th>
+                <th>Port</th>
+                <th>Expire</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td><a href="updateuser/{{user.id}}">{{user.id}}</a></td>
+                    <td>{{user.user}}</td>
+                    <td>{{user.port}}</td>
+                    <td>{{user.expire}}</td>
+                    <td>{{user.enable}}</td>
+                    <td><button class="btn btn-primary" type="button">Disable</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
 {% endblock %}
