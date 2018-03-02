@@ -3,10 +3,11 @@ from flask import jsonify
 from wtforms import Form,StringField, IntegerField,HiddenField
 from datetime import datetime, timedelta
 from requests import get
+import subprocess
 import json
 
 app = Flask(__name__)
-usersJsonFile = 'test.json'
+usersJsonFile = '/usr/local/shadowsocksr/mudb.json'
 
 @app.route('/')
 def index():
@@ -24,6 +25,7 @@ def getallusers():
 
 @app.route('/test')
 def test():
+    #subprocess.check_call(['bash','./test.sh'])
     return render_template('test.html')
 
 @app.route('/adduser', methods=['GET', 'POST'])
@@ -117,4 +119,4 @@ class UserForm(Form):
     expire = StringField('Expire')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
