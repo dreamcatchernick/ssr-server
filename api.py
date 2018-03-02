@@ -63,7 +63,8 @@ def adduser():
             jsonFile.seek(0)  # rewind
             json.dump(users, jsonFile)
             jsonFile.truncate()
-            subprocess.check_call(['bash','./addport.sh' , port])
+            portString = str(port)
+            subprocess.check_call(['bash','./addport.sh' , portString])
             return redirect('/') 
 
     return render_template('adduser.html', form=form)
