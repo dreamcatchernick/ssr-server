@@ -110,6 +110,28 @@ def getconnectioninfo(id):
         user['ip'] = ip
         return render_template('connectioninfo.html' , user=user)
 
+@app.route('/disableaccount/<int:id>')
+def disableaccount(id):
+    with open(usersJsonFile, 'r+') as jsonFile:
+        users = json.load(jsonFile)
+        user = users[id-1]
+        user['enable'] = 0
+        jsonFile.seek(0)  # rewind
+        json.dump(users, jsonFile)
+        jsonFile.truncate()
+        return redirect('/')
+
+@app.route('/enableaccount/<int:id>')
+def enableaccount(id):
+    with open(usersJsonFile, 'r+') as jsonFile:
+        users = json.load(jsonFile)
+        user = users[id-1]
+        user['enable'] = 1
+        jsonFile.seek(0)  # rewind
+        json.dump(users, jsonFile)
+        jsonFile.truncate()
+        return redirect('/')
+
 class UserForm(Form):
     #read only
     id = IntegerField('Id', render_kw={'readonly': True})

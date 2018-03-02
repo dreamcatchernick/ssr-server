@@ -3,7 +3,8 @@
 {% block body %}
     <h1>Users</h1>
     <a class="btn btn-success" href="/adduser"> Add User</a>
-    <hr>
+    <br>
+    <br>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -12,6 +13,7 @@
                 <th>Port</th>
                 <th>Expire</th>
                 <th>Active</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -23,7 +25,11 @@
                     <td>{{user.expire}}</td>
                     <td>{{user.enable}}</td>
                     <td>
-                        <button class="btn btn-primary" type="button">Disable</button>
+                        {% if user.enable == 1 %}
+                            <a class="btn btn-primary" href="disableaccount/{{user.id}}">Disable</button>
+                        {% else %}
+                            <a class="btn btn-primary" href="enableaccount/{{user.id}}">Enable</button>
+                        {% endif %}
                         <a class="btn btn-primary" href="updateuser/{{user.id}}">Update</a>
                     </td>
                 </tr>
