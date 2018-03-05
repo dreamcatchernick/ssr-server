@@ -13,6 +13,8 @@
                 <th>Port</th>
                 <th>Expire</th>
                 <th>Active</th>
+                <th>Download(MB)</th>
+                <th>Upload(MB)</th>
                 <th></th>
             </tr>
         </thead>
@@ -24,6 +26,8 @@
                     <td>{{user.port}}</td>
                     <td>{{user.expire}}</td>
                     <td>{{user.enable}}</td>
+                    <td>{{(user.d / 1048576) | round(2, 'common')}}</td>
+                    <td>{{(user.u / 1048576) | round(2, 'common')}}</td>
                     <td>
                         {% if user.enable == 1 %}
                             <a class="btn btn-primary" href="disableaccount/{{user.id}}">Disable</button>

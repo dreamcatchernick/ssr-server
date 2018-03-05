@@ -8,6 +8,7 @@ import json
 
 app = Flask(__name__)
 usersJsonFile = '/usr/local/shadowsocksr/mudb.json'
+#usersJsonFile = 'test.json'
 
 @app.route('/')
 def index():
@@ -45,7 +46,7 @@ def adduser():
                     "d": 0,
                     "enable": 1,
                     "forbidden_port": "",
-                    "method": "aes-128-ctr",
+                    "method": "aes-256-cfb",
                     "obfs": "plain",
                     "passwd": password,
                     "port": port,
